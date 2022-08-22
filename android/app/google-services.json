@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:653632176773:android:47e5b592687c234af2dfec",
+        "mobilesdk_app_id": "1:653632176773:android:d88938239583f0b2f2dfec",
         "android_client_info": {
-          "package_name": "com.android.application"
+          "package_name": "com.example.users_app"
         }
       },
       "oauth_client": [
@@ -37,9 +37,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:653632176773:android:0800b1f837f189c3f2dfec",
+        "mobilesdk_app_id": "1:653632176773:android:4d21f973cfc026a4f2dfec",
         "android_client_info": {
-          "package_name": "com.example.drivers_app"
+          "package_name": "com.hidaya.users_app"
         }
       },
       "oauth_client": [

@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:users_app/splashScreen/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +13,7 @@ void main() async {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        //home: const MySplashScreen(),
+        home: const MySplashScreen(),
       ),
     ),
   );
