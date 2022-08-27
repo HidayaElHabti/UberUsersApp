@@ -19,21 +19,18 @@ class _MainScreenState extends State<MainScreen> {
   );
 
   GlobalKey<ScaffoldState> skey = GlobalKey<ScaffoldState>();
-
+  double searchLocationContainerHeight = 220.0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: skey,
-      drawer: Container(
-        width: 240,
-        child: Theme(
-          data: Theme.of(context).copyWith(
-            canvasColor: Colors.black,
-          ),
-          child: MyDrawer(
-            name: userModelCurrentInfo!.name,
-            email: userModelCurrentInfo!.email,
-          ),
+      drawer: Theme(
+        data: Theme.of(context).copyWith(
+          canvasColor: Colors.black,
+        ),
+        child: MyDrawer(
+          name: userModelCurrentInfo!.name,
+          email: userModelCurrentInfo!.email,
         ),
       ),
       body: Stack(
@@ -212,7 +209,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           //custom hamburger button for drawer
           Positioned(
-            top: 30,
+            top: 35,
             left: 18,
             child: GestureDetector(
               onTap: () {
@@ -226,7 +223,112 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ),
             ),
-          )
+          ),
+          //ui for searching location
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: AnimatedSize(
+              curve: Curves.easeIn,
+              duration: const Duration(milliseconds: 120),
+              child: Container(
+                  height: searchLocationContainerHeight,
+                  decoration: const BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(20),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 18,
+                    ),
+                    child: Column(
+                      children: [
+                        //from location
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.add_location_alt_outlined,
+                              color: Colors.grey,
+                            ),
+                            const SizedBox(width: 12),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "From",
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 12),
+                                ),
+                                Text(
+                                  "Your current location",
+                                  style: const TextStyle(
+                                      color: Colors.grey, fontSize: 14),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Divider(
+                          height: 1,
+                          thickness: 1,
+                          color: Colors.grey,
+                        ),
+                        const SizedBox(height: 16),
+                        //to location
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.add_location_alt_outlined,
+                              color: Colors.grey,
+                            ),
+                            const SizedBox(width: 12),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "To",
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 12),
+                                ),
+                                Text(
+                                  "Where to go?",
+                                  style: const TextStyle(
+                                      color: Colors.grey, fontSize: 14),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Divider(
+                          height: 1,
+                          thickness: 1,
+                          color: Colors.grey,
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          child: Text(
+                            "Request a Ride",
+                          ),
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              primary: Colors.green,
+                              textStyle: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              )),
+                        ),
+                      ],
+                    ),
+                  )),
+            ),
+          ),
         ],
       ),
     );
