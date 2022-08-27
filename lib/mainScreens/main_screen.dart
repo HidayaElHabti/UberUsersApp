@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:users_app/assistants/assistant_methods.dart';
+import 'package:users_app/global/global.dart';
+import 'package:users_app/widgets/my_drawer.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -14,9 +17,25 @@ class _MainScreenState extends State<MainScreen> {
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
   );
+
+  GlobalKey<ScaffoldState> skey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: skey,
+      drawer: Container(
+        width: 240,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+            canvasColor: Colors.black,
+          ),
+          child: MyDrawer(
+            name: userModelCurrentInfo!.name,
+            email: userModelCurrentInfo!.email,
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           GoogleMap(
@@ -191,6 +210,23 @@ class _MainScreenState extends State<MainScreen> {
                 ''');
             },
           ),
+          //custom hamburger button for drawer
+          Positioned(
+            top: 30,
+            left: 18,
+            child: GestureDetector(
+              onTap: () {
+                skey.currentState!.openDrawer();
+              },
+              child: const CircleAvatar(
+                backgroundColor: Colors.grey,
+                child: Icon(
+                  Icons.menu,
+                  color: Colors.black54,
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );

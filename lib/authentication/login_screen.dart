@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:users_app/authentication/signup_screen.dart';
@@ -44,10 +45,20 @@ class _LoginScreenState extends State<LoginScreen> {
     }))
         .user;
     if (firebaseUser != null) {
-      currentUser = firebaseUser;
-      Fluttertoast.showToast(msg: "Logged in successfully");
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => MySplashScreen()));
+      DatabaseReference driversRef =
+          FirebaseDatabase.instance.ref().child("users");
+      driversRef.child(firebaseUser.uid).once().then((userKey) {
+        final snap = userKey.snapshot;
+        if (snap.value != null) {
+          currentUser = firebaseUser;
+          Fluttertoast.showToast(msg: "Logged in successfully");
+        } else {
+          Fluttertoast.showToast(msg: "No record found for this email");
+          fAuth.signOut();
+        }
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MySplashScreen()));
+      });
     } else {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: 'Error occured while logging in');
