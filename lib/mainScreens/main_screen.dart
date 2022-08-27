@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:users_app/assistants/assistant_methods.dart';
 import 'package:users_app/global/global.dart';
@@ -20,6 +21,35 @@ class _MainScreenState extends State<MainScreen> {
 
   GlobalKey<ScaffoldState> skey = GlobalKey<ScaffoldState>();
   double searchLocationContainerHeight = 220.0;
+  double bottomPaddingOfMap = 0;
+  Position? userCurrentPosition;
+  var geoLocator = Geolocator();
+  LocationPermission? _locationPermission;
+
+  checkLocationPermission() async {
+    _locationPermission = await Geolocator.requestPermission();
+    if (_locationPermission == LocationPermission.denied) {
+      _locationPermission = await Geolocator.requestPermission();
+    }
+  }
+
+  locateUserPosition() async {
+    userCurrentPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    LatLng latLngPosition =
+        LatLng(userCurrentPosition!.latitude, userCurrentPosition!.longitude);
+    CameraPosition cameraPosition =
+        CameraPosition(target: latLngPosition, zoom: 14);
+    googleMapController!
+        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkLocationPermission();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,8 +66,11 @@ class _MainScreenState extends State<MainScreen> {
       body: Stack(
         children: [
           GoogleMap(
+            padding: EdgeInsets.only(bottom: bottomPaddingOfMap),
             mapType: MapType.normal,
             myLocationEnabled: true,
+            zoomGesturesEnabled: true,
+            zoomControlsEnabled: true,
             initialCameraPosition: _kGooglePlex,
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
@@ -205,6 +238,10 @@ class _MainScreenState extends State<MainScreen> {
                       }
                     ]
                 ''');
+              setState(() {
+                bottomPaddingOfMap = 240;
+              });
+              locateUserPosition();
             },
           ),
           //custom hamburger button for drawer
@@ -235,7 +272,7 @@ class _MainScreenState extends State<MainScreen> {
               child: Container(
                   height: searchLocationContainerHeight,
                   decoration: const BoxDecoration(
-                    color: Colors.black,
+                    color: Colors.black54,
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(20),
                       topLeft: Radius.circular(20),
