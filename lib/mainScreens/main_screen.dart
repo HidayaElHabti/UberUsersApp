@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:users_app/assistants/assistant_methods.dart';
 import 'package:users_app/global/global.dart';
 import 'package:users_app/infoHandler/app_info.dart';
+import 'package:users_app/mainScreens/search_places_screen.dart';
 import 'package:users_app/widgets/my_drawer.dart';
 
 class MainScreen extends StatefulWidget {
@@ -322,48 +323,54 @@ class _MainScreenState extends State<MainScreen> {
                           ],
                         ),
                         const SizedBox(height: 10),
-                        Divider(
+                        const Divider(
                           height: 1,
                           thickness: 1,
                           color: Colors.grey,
                         ),
                         const SizedBox(height: 16),
                         //to location
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.add_location_alt_outlined,
-                              color: Colors.grey,
-                            ),
-                            const SizedBox(width: 12),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  "To",
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 12),
-                                ),
-                                Text(
-                                  "Where to go?",
-                                  style: const TextStyle(
-                                      color: Colors.grey, fontSize: 14),
-                                ),
-                              ],
-                            ),
-                          ],
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        SearchPlacesScreen()));
+                          },
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.add_location_alt_outlined,
+                                color: Colors.grey,
+                              ),
+                              const SizedBox(width: 12),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "To",
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 12),
+                                  ),
+                                  Text(
+                                    "Where to go?",
+                                    style: const TextStyle(
+                                        color: Colors.grey, fontSize: 14),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                         const SizedBox(height: 10),
-                        Divider(
+                        const Divider(
                           height: 1,
                           thickness: 1,
                           color: Colors.grey,
                         ),
                         const SizedBox(height: 16),
                         ElevatedButton(
-                          child: Text(
-                            "Request a Ride",
-                          ),
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
                               primary: Colors.green,
@@ -371,6 +378,9 @@ class _MainScreenState extends State<MainScreen> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               )),
+                          child: const Text(
+                            "Request a Ride",
+                          ),
                         ),
                       ],
                     ),
