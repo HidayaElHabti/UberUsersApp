@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -37,6 +38,10 @@ class _MainScreenState extends State<MainScreen> {
   Set<Marker> markersSet = {};
   Set<Circle> circlesSet = {};
 
+  String userName = "", userEmail = "";
+
+  bool openNavigationDrawer = true;
+
   checkLocationPermission() async {
     _locationPermission = await Geolocator.requestPermission();
     if (_locationPermission == LocationPermission.denied) {
@@ -54,10 +59,10 @@ class _MainScreenState extends State<MainScreen> {
     googleMapController!
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
-    String humanReadableAddress =
-        await AssistantMethods.searchAddressForGeographicCoOrdinates(
-            userCurrentPosition!, context);
-    print("this is your address = " + humanReadableAddress);
+    await AssistantMethods.searchAddressForGeographicCoOrdinates(
+        userCurrentPosition!, context);
+    userName = userModelCurrentInfo!.name!;
+    userEmail = userModelCurrentInfo!.email!;
   }
 
   @override
@@ -75,8 +80,8 @@ class _MainScreenState extends State<MainScreen> {
           canvasColor: Colors.black,
         ),
         child: MyDrawer(
-          name: userModelCurrentInfo!.name,
-          email: userModelCurrentInfo!.email,
+          name: userName,
+          email: userEmail,
         ),
       ),
       body: Stack(
@@ -269,12 +274,16 @@ class _MainScreenState extends State<MainScreen> {
             left: 18,
             child: GestureDetector(
               onTap: () {
-                skey.currentState!.openDrawer();
+                if (openNavigationDrawer) {
+                  skey.currentState!.openDrawer();
+                } else {
+                  SystemNavigator.pop();
+                }
               },
-              child: const CircleAvatar(
+              child: CircleAvatar(
                 backgroundColor: Colors.grey,
                 child: Icon(
-                  Icons.menu,
+                  openNavigationDrawer ? Icons.menu : Icons.cancel,
                   color: Colors.black54,
                 ),
               ),
@@ -349,6 +358,9 @@ class _MainScreenState extends State<MainScreen> {
                                     builder: (context) =>
                                         SearchPlacesScreen()));
                             if (responseFromSearchScreen == "obtainedDropoff") {
+                              setState(() {
+                                openNavigationDrawer = false;
+                              });
                               //draw route
                               await drawPolyLineFromOriginToDestination();
                             }
