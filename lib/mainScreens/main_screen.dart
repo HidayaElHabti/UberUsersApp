@@ -354,7 +354,11 @@ class _MainScreenState extends State<MainScreen> {
                                         color: Colors.grey, fontSize: 12),
                                   ),
                                   Text(
-                                    "Where to go?",
+                                    Provider.of<AppInfo>(context)
+                                                .userDropOffLocation !=
+                                            null
+                                        ? "${(Provider.of<AppInfo>(context).userDropOffLocation!.locationName!).substring(0, 24)}..."
+                                        : "Where to go?",
                                     style: const TextStyle(
                                         color: Colors.grey, fontSize: 14),
                                   ),
