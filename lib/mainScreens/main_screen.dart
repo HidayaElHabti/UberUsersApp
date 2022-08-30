@@ -14,6 +14,7 @@ import 'package:users_app/global/global.dart';
 import 'package:users_app/infoHandler/app_info.dart';
 import 'package:users_app/main.dart';
 import 'package:users_app/mainScreens/search_places_screen.dart';
+import 'package:users_app/mainScreens/select_nearest_active_driver_screen.dart';
 import 'package:users_app/models/active_nearby_available_drivers.dart';
 import 'package:users_app/widgets/my_drawer.dart';
 import 'package:users_app/widgets/progress_dialog.dart';
@@ -111,8 +112,8 @@ class _MainScreenState extends State<MainScreen> {
     //active driver available
     await retrieveOnlineDriversInformation(onlineNearByAvailableDriversList);
 
-    // Navigator.push(context,
-    //     MaterialPageRoute(builder: (c) => SelectNearestActiveDriversScreen()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (c) => SelectNearestActiveDriversScreen()));
   }
 
   retrieveOnlineDriversInformation(List onlineNearestDriversList) async {
