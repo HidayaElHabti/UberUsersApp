@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smooth_star_rating_nsafe/smooth_star_rating.dart';
@@ -5,7 +6,9 @@ import 'package:users_app/assistants/assistant_methods.dart';
 import 'package:users_app/global/global.dart';
 
 class SelectNearestActiveDriversScreen extends StatefulWidget {
-  const SelectNearestActiveDriversScreen({Key? key}) : super(key: key);
+  DatabaseReference? referenceRideRequest;
+
+  SelectNearestActiveDriversScreen({this.referenceRideRequest});
 
   @override
   _SelectNearestActiveDriversScreenState createState() =>
@@ -62,7 +65,7 @@ class _SelectNearestActiveDriversScreenState
           icon: const Icon(Icons.close, color: Colors.white),
           onPressed: () {
             //delete/remove the ride request from database
-
+            widget.referenceRideRequest!.remove();
             SystemNavigator.pop();
           },
         ),
